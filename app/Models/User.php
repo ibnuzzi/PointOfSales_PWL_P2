@@ -7,12 +7,13 @@ use App\Models\UserModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-    
+
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
     /**
@@ -20,7 +21,12 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = ['username','nama','password','level_id'];
+    protected $fillable = ['username', 'nama', 'password', 'level_id'];
+
+    public function level(): BelongsTo  
+    {
+        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
